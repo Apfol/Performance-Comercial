@@ -1,6 +1,6 @@
-import 'dart:convert';
+import 'package:comercial_performance/entities/consultor.dart';
+import 'package:comercial_performance/requests/requests.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 void main() => runApp(MyApp());
 
@@ -26,12 +26,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  Future<Consultor> consultor;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  @override
+  void initState() {
+    super.initState();
+    consultor = fetchConsultor();
   }
 
   @override
@@ -41,32 +41,19 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
+        child: FutureBuilder<Consultor>(
+          future: consultor,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Text(snapshot.data.noUsuario);
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            }
+            // By default, show a loading spinner.
+            return CircularProgressIndicator();
+          },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
     );
-  }
-
-  Future getData() async {
-    var url =
-        'https://amphibological-addi.000webhostapp.com/get-consultors.php';
-    http.Response response = await http.get(url);
-    var data = jsonDecode(response.body);
-    print(data.toString());
   }
 }
