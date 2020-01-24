@@ -27,12 +27,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Future<Consultor> consultor;
+  Future<List<Consultor>> consultores;
 
   @override
   void initState() {
     super.initState();
     consultor = fetchConsultor();
-    fetchConsultores();
+    consultores = fetchConsultores();
   }
 
   @override
@@ -42,11 +43,21 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: FutureBuilder<Consultor>(
-          future: consultor,
+        child: FutureBuilder(
+          future: consultores,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return Text(snapshot.data.noUsuario);
+              return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  Consultor consultor = snapshot.data[index];
+                  return Column(
+                    children: <Widget>[
+                      Text(consultor.noUsuario),
+                    ],
+                  );
+                },
+              );
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             }
