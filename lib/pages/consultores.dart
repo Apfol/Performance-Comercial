@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:comercial_performance/entities/consultor.dart';
 import 'package:comercial_performance/requests/requests.dart';
+import 'package:comercial_performance/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class ConsultoresList extends StatefulWidget {
@@ -199,7 +200,7 @@ class _ConsultoresListState extends State<ConsultoresList> {
         color: Colors.white,
       ),
       width: double.infinity,
-      height: 115,
+      height: 120,
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Row(
@@ -235,14 +236,14 @@ class _ConsultoresListState extends State<ConsultoresList> {
                 Row(
                   children: <Widget>[
                     Icon(
-                      Icons.location_on,
+                      Icons.email,
                       color: secondary,
                       size: 20,
                     ),
                     SizedBox(
                       width: 5,
                     ),
-                    Text(schoolLists[index]['location'],
+                    Text(consultores[index].noEmail,
                         style: TextStyle(
                             color: primary, fontSize: 13, letterSpacing: .3)),
                   ],
@@ -253,14 +254,17 @@ class _ConsultoresListState extends State<ConsultoresList> {
                 Row(
                   children: <Widget>[
                     Icon(
-                      Icons.school,
+                      Icons.date_range,
                       color: secondary,
                       size: 20,
                     ),
                     SizedBox(
                       width: 5,
                     ),
-                    Text(schoolLists[index]['type'],
+                    Text(
+                        "Fecha de admisión: " +
+                            dateFormat
+                                .format(consultores[index].dtAdmissaoEmpresa),
                         style: TextStyle(
                             color: primary, fontSize: 13, letterSpacing: .3)),
                   ],
