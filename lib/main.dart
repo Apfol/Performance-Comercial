@@ -9,9 +9,26 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Performance Comercial',
       theme: ThemeData(
-        primarySwatch: Colors.orange,
+        primarySwatch: Colors.indigo,
       ),
-      home: ConsultoresList(),
+      home: Scaffold(
+          backgroundColor: Color(0xfff0f0f0),
+          body: ConsultoresList(),
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: 0,
+            items: [
+              BottomNavigationBarItem(
+                icon: new Icon(Icons.home),
+                title: new Text('Relatorio'),
+              ),
+              BottomNavigationBarItem(
+                icon: new Icon(Icons.show_chart),
+                title: new Text('Gráfico'),
+              ),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.pie_chart), title: Text('Pizza'))
+            ],
+          )),
     );
   }
 }
