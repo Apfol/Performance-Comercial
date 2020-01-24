@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 Consultor consultorFromJson(String str) => Consultor.fromJson(json.decode(str));
 
 String consultorToJson(Consultor data) => json.encode(data.toJson());
@@ -38,6 +40,8 @@ class Consultor {
   String coTipoUsuario;
   String inAtivo;
   String coSistema;
+  bool isChecked = false;
+  var borderColor = Colors.white;
 
   Consultor({
     this.coUsuario,
