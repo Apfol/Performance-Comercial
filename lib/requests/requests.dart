@@ -23,7 +23,6 @@ Future<List<Consultor>> fetchConsultores() async {
     // If the call to the server was successful, parse the JSON.
     var data = json.decode(response.body);
     var rest = data["consultores"] as List;
-    print(rest);
     consultores =
         rest.map<Consultor>((json) => Consultor.fromJson(json)).toList();
     return consultores;
