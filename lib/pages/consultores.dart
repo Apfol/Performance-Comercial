@@ -29,116 +29,116 @@ class _ConsultoresListState extends State<ConsultoresList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: Visibility(
-        visible: isSomeConsultorChecked,
-        child: FloatingActionButton.extended(
-          onPressed: () {},
-          label: Text("Relatorio"),
-          icon: Icon(Icons.info),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Stack(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(top: 145),
-                height: MediaQuery.of(context).size.height,
-                width: double.infinity,
-                child: FutureBuilder(
-                  future: consultores,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Container(
-                        padding: EdgeInsets.only(bottom: 56),
-                        child: ListView.builder(
+    return SingleChildScrollView(
+      child: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Stack(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(top: 145),
+              height: MediaQuery.of(context).size.height,
+              width: double.infinity,
+              child: FutureBuilder(
+                future: consultores,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Container(
+                      padding: EdgeInsets.only(bottom: 56),
+                      child: Scaffold(
+                        floatingActionButton: Visibility(
+                          visible: isSomeConsultorChecked,
+                          child: FloatingActionButton.extended(
+                            onPressed: () {},
+                            label: Text("Relatorio"),
+                            icon: Icon(Icons.info),
+                          ),
+                        ),
+                        body: ListView.builder(
                             itemCount: snapshot.data.length,
                             itemBuilder: (BuildContext context, int index) {
                               return buildList(context, index, snapshot.data);
                             }),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text("${snapshot.error}");
-                    }
-                    // By default, show a loading spinner.
-                    return CircularProgressIndicator();
-                  },
-                ),
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                  }
+                  // By default, show a loading spinner.
+                  return CircularProgressIndicator();
+                },
               ),
-              Container(
-                height: 140,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    color: primary,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30))),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.menu,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        "Consultores",
-                        style: TextStyle(color: Colors.white, fontSize: 24),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.filter_list,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                child: Column(
+            ),
+            Container(
+              height: 140,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: primary,
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30))),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    SizedBox(
-                      height: 110,
+                    IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.menu,
+                        color: Colors.white,
+                      ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Material(
-                        elevation: 5.0,
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        child: TextField(
-                          // controller: TextEditingController(text: locations[0]),
-                          cursorColor: Theme.of(context).primaryColor,
-                          style: dropdownMenuItem,
-                          decoration: InputDecoration(
-                              hintText: "Buscar consultor",
-                              hintStyle: TextStyle(
-                                  color: Colors.black38, fontSize: 16),
-                              prefixIcon: Material(
-                                elevation: 0.0,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30)),
-                                child: Icon(Icons.search),
-                              ),
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 25, vertical: 13)),
-                        ),
+                    Text(
+                      "Consultores",
+                      style: TextStyle(color: Colors.white, fontSize: 24),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.filter_list,
+                        color: Colors.white,
                       ),
                     ),
                   ],
                 ),
-              )
-            ],
-          ),
+              ),
+            ),
+            Container(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 110,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Material(
+                      elevation: 5.0,
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      child: TextField(
+                        // controller: TextEditingController(text: locations[0]),
+                        cursorColor: Theme.of(context).primaryColor,
+                        style: dropdownMenuItem,
+                        decoration: InputDecoration(
+                            hintText: "Buscar consultor",
+                            hintStyle:
+                                TextStyle(color: Colors.black38, fontSize: 16),
+                            prefixIcon: Material(
+                              elevation: 0.0,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                              child: Icon(Icons.search),
+                            ),
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 25, vertical: 13)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );
