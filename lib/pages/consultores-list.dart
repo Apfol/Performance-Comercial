@@ -1,5 +1,7 @@
 import 'package:comercial_performance/entities/consultor.dart';
-import 'package:comercial_performance/pages/report.dart';
+import 'package:comercial_performance/pages/chart-page.dart';
+import 'package:comercial_performance/pages/pie-chart-page.dart';
+import 'package:comercial_performance/pages/report-page.dart';
 import 'package:comercial_performance/requests/requests.dart';
 import 'package:comercial_performance/utils/utils.dart' as utils;
 import 'package:flutter/material.dart';
@@ -64,20 +66,30 @@ class _ConsultoresListState extends State<ConsultoresList> {
                   onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Report(
+                          builder: (context) => ReportPage(
                                 consultores: consultoresChecked,
                               )))),
               SpeedDialChild(
                 child: Icon(Icons.show_chart),
                 label: 'Gráfico',
                 labelStyle: TextStyle(fontSize: 18.0),
-                onTap: () => print('SECOND CHILD'),
+                onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ChartPage(
+                              consultores: consultoresChecked,
+                            ))),
               ),
               SpeedDialChild(
                 child: Icon(Icons.pie_chart),
                 label: 'Torta',
                 labelStyle: TextStyle(fontSize: 18.0),
-                onTap: () => print('THIRD CHILD'),
+                onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PieChartPage(
+                              consultores: consultoresChecked,
+                            ))),
               ),
             ],
           ),

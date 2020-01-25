@@ -2,10 +2,10 @@ import 'package:comercial_performance/entities/consultor.dart';
 import 'package:comercial_performance/utils/utils.dart' as utils;
 import 'package:flutter/material.dart';
 
-class Report extends StatelessWidget {
+class ReportPage extends StatelessWidget {
   final Set<Consultor> consultores;
 
-  Report({this.consultores});
+  ReportPage({this.consultores});
 
   @override
   Widget build(BuildContext context) {
