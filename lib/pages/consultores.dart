@@ -1,11 +1,11 @@
 import 'package:comercial_performance/entities/consultor.dart';
 import 'package:comercial_performance/requests/requests.dart';
-import 'package:comercial_performance/utils/utils.dart';
+import 'package:comercial_performance/utils/utils.dart' as utils;
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class ConsultoresList extends StatefulWidget {
   ConsultoresList({Key key}) : super(key: key);
-  static final String path = "lib/src/pages/lists/list2.dart";
 
   _ConsultoresListState createState() => _ConsultoresListState();
 }
@@ -15,6 +15,7 @@ class _ConsultoresListState extends State<ConsultoresList> {
       TextStyle(color: Colors.black, fontSize: 18);
 
   Future<List<Consultor>> consultores;
+  Set<Consultor> consultoresChecked = new Set();
 
   var isSomeConsultorChecked = false;
 
@@ -29,134 +30,163 @@ class _ConsultoresListState extends State<ConsultoresList> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Stack(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(top: 145),
-              height: MediaQuery.of(context).size.height,
-              width: double.infinity,
-              child: FutureBuilder(
-                future: consultores,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Container(
-                      padding: EdgeInsets.only(bottom: 56),
-                      child: Scaffold(
-                        floatingActionButton: Visibility(
-                          visible: isSomeConsultorChecked,
-                          child: FloatingActionButton.extended(
-                            onPressed: () {},
-                            label: Text("Relatorio"),
-                            icon: Icon(Icons.info),
-                          ),
-                        ),
-                        body: ListView.builder(
-                            itemCount: snapshot.data.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return buildList(context, index, snapshot.data);
-                            }),
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text("${snapshot.error}");
-                  }
-                  // By default, show a loading spinner.
-                  return CircularProgressIndicator();
-                },
-              ),
+    return Scaffold(
+      floatingActionButton: Visibility(
+        visible: consultoresChecked.isNotEmpty,
+        child: SpeedDial(
+          // both default to 16
+          marginRight: 18,
+          marginBottom: 20,
+          animatedIcon: AnimatedIcons.menu_close,
+          animatedIconTheme: IconThemeData(size: 22.0),
+          // this is ignored if animatedIcon is non null
+          // child: Icon(Icons.add),
+          visible: true,
+          // If true user is forced to close dial manually
+          // by tapping main button and overlay is not rendered.
+          closeManually: false,
+          curve: Curves.bounceIn,
+          overlayColor: Colors.black,
+          overlayOpacity: 0.5,
+          heroTag: 'speed-dial-hero-tag',
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 8.0,
+          shape: CircleBorder(),
+          children: [
+            SpeedDialChild(
+                child: Icon(Icons.info),
+                label: 'Relatorio',
+                labelStyle: TextStyle(fontSize: 18.0),
+                onTap: () => print('FIRST CHILD')),
+            SpeedDialChild(
+              child: Icon(Icons.show_chart),
+              label: 'Gráfico',
+              labelStyle: TextStyle(fontSize: 18.0),
+              onTap: () => print('SECOND CHILD'),
             ),
-            Container(
-              height: 140,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: primary,
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30))),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.menu,
-                        color: Colors.white,
+            SpeedDialChild(
+              child: Icon(Icons.pie_chart),
+              label: 'Torta',
+              labelStyle: TextStyle(fontSize: 18.0),
+              onTap: () => print('THIRD CHILD'),
+            ),
+          ],
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Stack(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(top: 145),
+                height: MediaQuery.of(context).size.height,
+                width: double.infinity,
+                child: FutureBuilder(
+                  future: consultores,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return buildList(context, index, snapshot.data);
+                          });
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    }
+                    // By default, show a loading spinner.
+                    return Container(
+                        padding: EdgeInsets.all(100),
+                        child: CircularProgressIndicator());
+                  },
+                ),
+              ),
+              Container(
+                height: 140,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: primary,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(30),
+                        bottomRight: Radius.circular(30))),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.menu,
+                          color: Colors.white,
+                        ),
                       ),
+                      Text(
+                        "Consultores",
+                        style: TextStyle(color: Colors.white, fontSize: 24),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.filter_list,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 110,
                     ),
-                    Text(
-                      "Consultores",
-                      style: TextStyle(color: Colors.white, fontSize: 24),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.filter_list,
-                        color: Colors.white,
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Material(
+                        elevation: 5.0,
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        child: TextField(
+                          // controller: TextEditingController(text: locations[0]),
+                          cursorColor: Theme.of(context).primaryColor,
+                          style: dropdownMenuItem,
+                          decoration: InputDecoration(
+                              hintText: "Buscar consultor",
+                              hintStyle: TextStyle(
+                                  color: Colors.black38, fontSize: 16),
+                              prefixIcon: Material(
+                                elevation: 0.0,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30)),
+                                child: Icon(Icons.search),
+                              ),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 25, vertical: 13)),
+                        ),
                       ),
                     ),
                   ],
                 ),
-              ),
-            ),
-            Container(
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 110,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Material(
-                      elevation: 5.0,
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      child: TextField(
-                        // controller: TextEditingController(text: locations[0]),
-                        cursorColor: Theme.of(context).primaryColor,
-                        style: dropdownMenuItem,
-                        decoration: InputDecoration(
-                            hintText: "Buscar consultor",
-                            hintStyle:
-                                TextStyle(color: Colors.black38, fontSize: 16),
-                            prefixIcon: Material(
-                              elevation: 0.0,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30)),
-                              child: Icon(Icons.search),
-                            ),
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 25, vertical: 13)),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 
-  bool checkConsultoresChecked(List<Consultor> consultores) {
-    for (var c in consultores) {
-      if (c.isChecked) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   changeborderAndCheckbox(List<Consultor> consultores, int index) {
-    consultores[index].isChecked == false
-        ? consultores[index].isChecked = true
-        : consultores[index].isChecked = false;
+    if (consultores[index].isChecked == false) {
+      consultores[index].isChecked = true;
+      consultoresChecked.add(consultores[index]);
+    } else {
+      consultores[index].isChecked = false;
+      consultoresChecked.remove(consultores[index]);
+    }
     consultores[index].borderColor == Colors.white
         ? consultores[index].borderColor = Colors.black
         : consultores[index].borderColor = Colors.white;
@@ -168,7 +198,6 @@ class _ConsultoresListState extends State<ConsultoresList> {
       onTap: () {
         setState(() {
           changeborderAndCheckbox(consultores, index);
-          isSomeConsultorChecked = checkConsultoresChecked(consultores);
         });
       },
       child: Container(
@@ -228,7 +257,7 @@ class _ConsultoresListState extends State<ConsultoresList> {
                       ),
                       Text(
                           "Fecha de admisión: " +
-                              dateFormat
+                              utils.dateFormat
                                   .format(consultores[index].dtAdmissaoEmpresa),
                           style: TextStyle(
                               color: primary, fontSize: 13, letterSpacing: .3)),
@@ -243,8 +272,6 @@ class _ConsultoresListState extends State<ConsultoresList> {
                 onChanged: (bool value) {
                   setState(() {
                     changeborderAndCheckbox(consultores, index);
-                    isSomeConsultorChecked =
-                        checkConsultoresChecked(consultores);
                   });
                 },
               ),

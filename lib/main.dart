@@ -1,5 +1,7 @@
 import 'package:comercial_performance/pages/consultores.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:comercial_performance/utils/utils.dart' as utils;
 
 void main() => runApp(MyApp());
 
@@ -11,24 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
-      home: Scaffold(
-          backgroundColor: Color(0xfff0f0f0),
-          body: ConsultoresList(),
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: 0,
-            items: [
-              BottomNavigationBarItem(
-                icon: new Icon(Icons.home),
-                title: new Text('Relatorio'),
-              ),
-              BottomNavigationBarItem(
-                icon: new Icon(Icons.show_chart),
-                title: new Text('Gráfico'),
-              ),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.pie_chart), title: Text('Pizza'))
-            ],
-          )),
+      home: Scaffold(body: ConsultoresList()),
     );
   }
 }
