@@ -30,153 +30,147 @@ class _ConsultoresListState extends State<ConsultoresList> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Performance Comercial',
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
-      ),
-      home: Scaffold(
-        floatingActionButton: Visibility(
-          visible: consultoresChecked.isNotEmpty,
-          child: SpeedDial(
-            // both default to 16
-            marginRight: 18,
-            marginBottom: 20,
-            animatedIcon: AnimatedIcons.menu_close,
-            animatedIconTheme: IconThemeData(size: 22.0),
-            // this is ignored if animatedIcon is non null
-            // child: Icon(Icons.add),
-            visible: true,
-            // If true user is forced to close dial manually
-            // by tapping main button and overlay is not rendered.
-            closeManually: false,
-            curve: Curves.bounceIn,
-            overlayColor: Colors.black,
-            overlayOpacity: 0.5,
-            heroTag: 'speed-dial-hero-tag',
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black,
-            elevation: 8.0,
-            shape: CircleBorder(),
-            children: [
-              SpeedDialChild(
-                  child: Icon(Icons.info),
-                  label: 'Informe',
-                  labelStyle: TextStyle(fontSize: 18.0),
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ReportPage(
-                                consultores: consultoresChecked,
-                              )))),
-              SpeedDialChild(
-                child: Icon(Icons.show_chart),
-                label: 'Gráfico',
+    return Scaffold(
+      floatingActionButton: Visibility(
+        visible: consultoresChecked.isNotEmpty,
+        child: SpeedDial(
+          // both default to 16
+          marginRight: 18,
+          marginBottom: 20,
+          animatedIcon: AnimatedIcons.menu_close,
+          animatedIconTheme: IconThemeData(size: 22.0),
+          // this is ignored if animatedIcon is non null
+          // child: Icon(Icons.add),
+          visible: true,
+          // If true user is forced to close dial manually
+          // by tapping main button and overlay is not rendered.
+          closeManually: false,
+          curve: Curves.bounceIn,
+          overlayColor: Colors.black,
+          overlayOpacity: 0.5,
+          heroTag: 'speed-dial-hero-tag',
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 8.0,
+          shape: CircleBorder(),
+          children: [
+            SpeedDialChild(
+                child: Icon(Icons.info),
+                label: 'Informe',
                 labelStyle: TextStyle(fontSize: 18.0),
                 onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ChartPage(
+                        builder: (context) => ReportPage(
                               consultores: consultoresChecked,
-                            ))),
-              ),
-              SpeedDialChild(
-                child: Icon(Icons.pie_chart),
-                label: 'Torta',
-                labelStyle: TextStyle(fontSize: 18.0),
-                onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => PieChartPage(
-                              consultores: consultoresChecked,
-                            ))),
-              ),
-            ],
-          ),
+                            )))),
+            SpeedDialChild(
+              child: Icon(Icons.show_chart),
+              label: 'Gráfico',
+              labelStyle: TextStyle(fontSize: 18.0),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ChartPage(
+                            consultores: consultoresChecked,
+                          ))),
+            ),
+            SpeedDialChild(
+              child: Icon(Icons.pie_chart),
+              label: 'Torta',
+              labelStyle: TextStyle(fontSize: 18.0),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PieChartPage(
+                            consultores: consultoresChecked,
+                          ))),
+            ),
+          ],
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(top: 145),
-                  height: MediaQuery.of(context).size.height,
-                  width: double.infinity,
-                  child: FutureBuilder(
-                    future: consultores,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return ListView.builder(
-                            itemCount: snapshot.data.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return buildList(context, index, snapshot.data);
-                            });
-                      } else if (snapshot.hasError) {
-                        return Text("${snapshot.error}");
-                      }
-                      // By default, show a loading spinner.
-                      return Container(
-                          padding: EdgeInsets.all(100),
-                          child: CircularProgressIndicator());
-                    },
-                  ),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Stack(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(top: 145),
+                height: MediaQuery.of(context).size.height,
+                width: double.infinity,
+                child: FutureBuilder(
+                  future: consultores,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return buildList(context, index, snapshot.data);
+                          });
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    }
+                    // By default, show a loading spinner.
+                    return Container(
+                        padding: EdgeInsets.all(100),
+                        child: CircularProgressIndicator());
+                  },
                 ),
-                Container(
-                  height: 140,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      color: utils.primaryColor,
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(30),
-                          bottomRight: Radius.circular(30))),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Center(
-                      child: Text(
-                        "Consultores",
-                        style: TextStyle(color: Colors.white, fontSize: 24),
-                      ),
+              ),
+              Container(
+                height: 140,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: utils.primaryColor,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(30),
+                        bottomRight: Radius.circular(30))),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Center(
+                    child: Text(
+                      "Consultores",
+                      style: TextStyle(color: Colors.white, fontSize: 24),
                     ),
                   ),
                 ),
-                Container(
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 110,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Material(
-                          elevation: 5.0,
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          child: TextField(
-                            // controller: TextEditingController(text: locations[0]),
-                            cursorColor: Theme.of(context).primaryColor,
-                            style: dropdownMenuItem,
-                            decoration: InputDecoration(
-                                hintText: "Buscar consultor",
-                                hintStyle: TextStyle(
-                                    color: Colors.black38, fontSize: 16),
-                                prefixIcon: Material(
-                                  elevation: 0.0,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(30)),
-                                  child: Icon(Icons.search),
-                                ),
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 25, vertical: 13)),
-                          ),
+              ),
+              Container(
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 110,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Material(
+                        elevation: 5.0,
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        child: TextField(
+                          // controller: TextEditingController(text: locations[0]),
+                          cursorColor: Theme.of(context).primaryColor,
+                          style: dropdownMenuItem,
+                          decoration: InputDecoration(
+                              hintText: "Buscar consultor",
+                              hintStyle: TextStyle(
+                                  color: Colors.black38, fontSize: 16),
+                              prefixIcon: Material(
+                                elevation: 0.0,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30)),
+                                child: Icon(Icons.search),
+                              ),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 25, vertical: 13)),
                         ),
                       ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
         ),
       ),
