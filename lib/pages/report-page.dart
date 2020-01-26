@@ -58,12 +58,10 @@ class _ReportPageState extends State<ReportPage> {
       BuildContext context, int index, Set<Consultor> consultores) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
         color: Colors.white,
       ),
       width: double.infinity,
-      height: 120,
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      margin: EdgeInsets.only(bottom: 10),
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,25 +75,303 @@ class _ReportPageState extends State<ReportPage> {
                   style: TextStyle(
                       color: utils.primaryColor,
                       fontWeight: FontWeight.bold,
-                      fontSize: 18),
+                      fontSize: 20),
                 ),
-                SizedBox(
-                  height: 6,
-                ),
-                Text("Ganancias Netas",
-                    style: TextStyle(
-                        color: utils.primaryColor,
-                        fontSize: 14,
-                        letterSpacing: .3)),
                 SizedBox(
                   height: 12,
                 ),
-                Text("26.500,00",
-                    style: TextStyle(
-                        color: utils.primaryColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: .3)),
+                Divider(
+                  height: 10,
+                  thickness: 2,
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Text(
+                  "Ganancias Netas",
+                  style: TextStyle(
+                      color: utils.primaryColor,
+                      fontSize: 14,
+                      letterSpacing: .3),
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Text(
+                  utils.currencyFormat.format(26500),
+                  style: TextStyle(
+                      color: utils.primaryColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: .3),
+                ),
+                SizedBox(
+                  height: 13,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 10, top: 10),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Enero de 2007",
+                            style: TextStyle(
+                                color: utils.primaryColor,
+                                fontSize: 16,
+                                letterSpacing: .3),
+                          ),
+                          Text(
+                            utils.currencyFormat.format(26500),
+                            style: TextStyle(
+                                color: utils.primaryColor,
+                                fontSize: 16,
+                                letterSpacing: .3),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Divider(
+                        height: 4,
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 10, top: 10),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Enero de 2007",
+                            style: TextStyle(
+                                color: utils.primaryColor,
+                                fontSize: 16,
+                                letterSpacing: .3),
+                          ),
+                          Text(
+                            utils.currencyFormat.format(26500),
+                            style: TextStyle(
+                                color: utils.primaryColor,
+                                fontSize: 16,
+                                letterSpacing: .3),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Divider(
+                        height: 4,
+                      )
+                    ],
+                  ),
+                ),
+                Divider(
+                  height: 40,
+                  thickness: 2,
+                ),
+                Text(
+                  "Costo Fijo",
+                  style: TextStyle(
+                      color: utils.primaryColor,
+                      fontSize: 14,
+                      letterSpacing: .3),
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Text(
+                  utils.currencyFormat.format(26500),
+                  style: TextStyle(
+                      color: utils.primaryColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: .3),
+                ),
+                Divider(
+                  height: 40,
+                  thickness: 2,
+                ),
+                Text(
+                  "Comisión",
+                  style: TextStyle(
+                      color: utils.primaryColor,
+                      fontSize: 14,
+                      letterSpacing: .3),
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Text(
+                  utils.currencyFormat.format(26500),
+                  style: TextStyle(
+                      color: utils.primaryColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: .3),
+                ),
+                SizedBox(
+                  height: 13,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 10, top: 10),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Enero de 2007",
+                            style: TextStyle(
+                                color: utils.primaryColor,
+                                fontSize: 16,
+                                letterSpacing: .3),
+                          ),
+                          Text(
+                            utils.currencyFormat.format(26500),
+                            style: TextStyle(
+                                color: utils.primaryColor,
+                                fontSize: 16,
+                                letterSpacing: .3),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Divider(
+                        height: 4,
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 10, top: 10),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Enero de 2007",
+                            style: TextStyle(
+                                color: utils.primaryColor,
+                                fontSize: 16,
+                                letterSpacing: .3),
+                          ),
+                          Text(
+                            utils.currencyFormat.format(26500),
+                            style: TextStyle(
+                                color: utils.primaryColor,
+                                fontSize: 16,
+                                letterSpacing: .3),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Divider(
+                        height: 4,
+                      )
+                    ],
+                  ),
+                ),
+                Divider(
+                  height: 40,
+                  thickness: 2,
+                ),
+                Text(
+                  "Ganancia",
+                  style: TextStyle(
+                      color: utils.primaryColor,
+                      fontSize: 14,
+                      letterSpacing: .3),
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Text(
+                  utils.currencyFormat.format(26500),
+                  style: TextStyle(
+                      color: utils.primaryColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: .3),
+                ),
+                SizedBox(
+                  height: 13,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 10, top: 10),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Enero de 2007",
+                            style: TextStyle(
+                                color: utils.primaryColor,
+                                fontSize: 16,
+                                letterSpacing: .3),
+                          ),
+                          Text(
+                            utils.currencyFormat.format(26500),
+                            style: TextStyle(
+                                color: utils.primaryColor,
+                                fontSize: 16,
+                                letterSpacing: .3),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Divider(
+                        height: 4,
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 10, top: 10),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Enero de 2007",
+                            style: TextStyle(
+                                color: utils.primaryColor,
+                                fontSize: 16,
+                                letterSpacing: .3),
+                          ),
+                          Text(
+                            utils.currencyFormat.format(26500),
+                            style: TextStyle(
+                                color: utils.primaryColor,
+                                fontSize: 16,
+                                letterSpacing: .3),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Divider(
+                        height: 4,
+                      )
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
