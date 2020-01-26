@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:comercial_performance/entities/monthly-report.dart';
+import 'package:comercial_performance/entities/report.dart';
 import 'package:flutter/material.dart';
 
 Consultor consultorFromJson(String str) => Consultor.fromJson(json.decode(str));
@@ -42,6 +44,8 @@ class Consultor {
   String coSistema;
   bool isChecked = false;
   var borderColor = Colors.white;
+  List<Report> reports = new List();
+  List<MonthlyReport> monthlyReports = new List();
 
   Consultor({
     this.coUsuario,
@@ -78,6 +82,156 @@ class Consultor {
     this.inAtivo,
     this.coSistema,
   });
+
+  setMonthlyReports() {
+    double netEarning = 0;
+    double fixedCost = 0;
+    double commission = 0;
+
+    for (int i = 1; i <= 12; i++) {
+      setMonthlyReport(i, netEarning, fixedCost, commission);
+    }
+  }
+
+  setMonthlyReport(
+      int month, double netEarning, double fixedCost, double commission) {
+    for (var r in reports) {
+      if (r.dataEmissao.month == month) {
+        netEarning += r.valor - (r.valor * (r.totalImpInc / 100));
+        commission += (r.valor - (r.valor * (r.totalImpInc / 100))) *
+            (r.comissaoCn / 100);
+        fixedCost = r.brutSalario;
+      }
+    }
+    if (commission != 0 || netEarning != 0 || fixedCost != 0) {
+      switch (month) {
+        case DateTime.january:
+          monthlyReports.add(
+            new MonthlyReport(
+                month: "Enero de 2007",
+                netEarning: netEarning,
+                fixedCost: fixedCost,
+                commission: commission,
+                profit: netEarning - (fixedCost + commission)),
+          );
+          break;
+        case DateTime.february:
+          monthlyReports.add(
+            new MonthlyReport(
+                month: "Febrero de 2007",
+                netEarning: netEarning,
+                fixedCost: fixedCost,
+                commission: commission,
+                profit: netEarning - (fixedCost + commission)),
+          );
+          break;
+        case DateTime.march:
+          monthlyReports.add(
+            new MonthlyReport(
+                month: "Marzo de 2007",
+                netEarning: netEarning,
+                fixedCost: fixedCost,
+                commission: commission,
+                profit: netEarning - (fixedCost + commission)),
+          );
+          break;
+        case DateTime.april:
+          monthlyReports.add(
+            new MonthlyReport(
+                month: "Abril de 2007",
+                netEarning: netEarning,
+                fixedCost: fixedCost,
+                commission: commission,
+                profit: netEarning - (fixedCost + commission)),
+          );
+          break;
+        case DateTime.may:
+          monthlyReports.add(
+            new MonthlyReport(
+                month: "Mayo de 2007",
+                netEarning: netEarning,
+                fixedCost: fixedCost,
+                commission: commission,
+                profit: netEarning - (fixedCost + commission)),
+          );
+          break;
+        case DateTime.june:
+          monthlyReports.add(
+            new MonthlyReport(
+                month: "Junio de 2007",
+                netEarning: netEarning,
+                fixedCost: fixedCost,
+                commission: commission,
+                profit: netEarning - (fixedCost + commission)),
+          );
+          break;
+        case DateTime.july:
+          monthlyReports.add(
+            new MonthlyReport(
+                month: "Julio de 2007",
+                netEarning: netEarning,
+                fixedCost: fixedCost,
+                commission: commission,
+                profit: netEarning - (fixedCost + commission)),
+          );
+          break;
+        case DateTime.august:
+          monthlyReports.add(
+            new MonthlyReport(
+                month: "Agosto de 2007",
+                netEarning: netEarning,
+                fixedCost: fixedCost,
+                commission: commission,
+                profit: netEarning - (fixedCost + commission)),
+          );
+          break;
+        case DateTime.september:
+          monthlyReports.add(
+            new MonthlyReport(
+                month: "Septiembre de 2007",
+                netEarning: netEarning,
+                fixedCost: fixedCost,
+                commission: commission,
+                profit: netEarning - (fixedCost + commission)),
+          );
+          break;
+        case DateTime.october:
+          monthlyReports.add(
+            new MonthlyReport(
+                month: "Octubre de 2007",
+                netEarning: netEarning,
+                fixedCost: fixedCost,
+                commission: commission,
+                profit: netEarning - (fixedCost + commission)),
+          );
+          break;
+        case DateTime.november:
+          monthlyReports.add(
+            new MonthlyReport(
+                month: "Noviembre de 2007",
+                netEarning: netEarning,
+                fixedCost: fixedCost,
+                commission: commission,
+                profit: netEarning - (fixedCost + commission)),
+          );
+          break;
+        case DateTime.december:
+          monthlyReports.add(
+            new MonthlyReport(
+                month: "Diciembre de 2007",
+                netEarning: netEarning,
+                fixedCost: fixedCost,
+                commission: commission,
+                profit: netEarning - (fixedCost + commission)),
+          );
+          break;
+        default:
+      }
+    }
+    netEarning = 0;
+    fixedCost = 0;
+    commission = 0;
+  }
 
   factory Consultor.fromJson(Map<String, dynamic> json) => Consultor(
         coUsuario: json["co_usuario"],

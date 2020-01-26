@@ -34,10 +34,10 @@ Future<List<Consultor>> fetchConsultores() async {
   }
 }
 
-Future<List<Report>> fetchNetEarnings() async {
+Future<List<Report>> fetchReports() async {
   List<Report> reports;
 
-  var url = BASE_API + "get-net-earnings.php";
+  var url = BASE_API + "get-reports.php";
 
   final response = await http.get(url);
 
@@ -50,24 +50,5 @@ Future<List<Report>> fetchNetEarnings() async {
   } else {
     // If that call was not successful, throw an error.
     throw Exception('Failed to load reports');
-  }
-}
-
-Future<List<FixedCost>> fetchFixedCost() async {
-  List<FixedCost> fixedCosts;
-  var url = BASE_API + "get-fixed-cost.php";
-
-  final response = await http.get(url);
-
-  if (response.statusCode == 200) {
-    // If the call to the server was successful, parse the JSON.
-    var data = json.decode(response.body);
-    var rest = data["fixed-costs"] as List;
-    fixedCosts =
-        rest.map<FixedCost>((json) => FixedCost.fromJson(json)).toList();
-    return fixedCosts;
-  } else {
-    // If that call was not successful, throw an error.
-    throw Exception('Failed to load fixed cost');
   }
 }
