@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:comercial_performance/entities/fixed-cost.dart';
+import 'package:comercial_performance/entities/report.dart';
 import 'package:http/http.dart' as http;
 import 'package:comercial_performance/entities/consultor.dart';
 
@@ -29,5 +31,43 @@ Future<List<Consultor>> fetchConsultores() async {
   } else {
     // If that call was not successful, throw an error.
     throw Exception('Failed to load consultores');
+  }
+}
+
+Future<List<Report>> fetchNetEarnings() async {
+  List<Report> reports;
+
+  var url = BASE_API + "get-net-earnings.php";
+
+  final response = await http.get(url);
+
+  if (response.statusCode == 200) {
+    // If the call to the server was successful, parse the JSON.
+    var data = json.decode(response.body);
+    var rest = data["reports"] as List;
+    reports = rest.map<Report>((json) => Report.fromJson(json)).toList();
+    return reports;
+  } else {
+    // If that call was not successful, throw an error.
+    throw Exception('Failed to load reports');
+  }
+}
+
+Future<List<FixedCost>> fetchFixedCost() async {
+  List<FixedCost> fixedCosts;
+  var url = BASE_API + "get-fixed-cost.php";
+
+  final response = await http.get(url);
+
+  if (response.statusCode == 200) {
+    // If the call to the server was successful, parse the JSON.
+    var data = json.decode(response.body);
+    var rest = data["fixed-costs"] as List;
+    fixedCosts =
+        rest.map<FixedCost>((json) => FixedCost.fromJson(json)).toList();
+    return fixedCosts;
+  } else {
+    // If that call was not successful, throw an error.
+    throw Exception('Failed to load fixed cost');
   }
 }

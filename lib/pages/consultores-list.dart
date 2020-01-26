@@ -49,8 +49,6 @@ class _ConsultoresListState extends State<ConsultoresList> {
           overlayColor: Colors.black,
           overlayOpacity: 0.5,
           heroTag: 'speed-dial-hero-tag',
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
           elevation: 8.0,
           shape: CircleBorder(),
           children: [
