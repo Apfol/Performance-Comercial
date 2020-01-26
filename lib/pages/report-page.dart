@@ -1,7 +1,9 @@
 import 'package:comercial_performance/entities/consultor.dart';
 import 'package:comercial_performance/entities/fixed-cost.dart';
+import 'package:comercial_performance/entities/monthly-report.dart';
 import 'package:comercial_performance/entities/report.dart';
 import 'package:comercial_performance/requests/requests.dart';
+import 'package:comercial_performance/utils/rowType.dart';
 import 'package:comercial_performance/utils/utils.dart' as utils;
 import 'package:flutter/material.dart';
 
@@ -70,22 +72,21 @@ class _ReportPageState extends State<ReportPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  consultores.elementAt(index).noUsuario,
-                  style: TextStyle(
-                      color: utils.primaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                ),
-                SizedBox(
-                  height: 12,
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Center(
+                    child: Text(
+                      consultores.elementAt(index).noUsuario,
+                      style: TextStyle(
+                          color: utils.primaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24),
+                    ),
+                  ),
                 ),
                 Divider(
-                  height: 10,
+                  height: 40,
                   thickness: 2,
-                ),
-                SizedBox(
-                  height: 12,
                 ),
                 Text(
                   "Ganancias Netas",
@@ -98,7 +99,8 @@ class _ReportPageState extends State<ReportPage> {
                   height: 12,
                 ),
                 Text(
-                  utils.currencyFormat.format(26500),
+                  utils.currencyFormat.format(
+                      getTotalNetEarnings(consultores.elementAt(index))),
                   style: TextStyle(
                       color: utils.primaryColor,
                       fontSize: 20,
@@ -108,92 +110,15 @@ class _ReportPageState extends State<ReportPage> {
                 SizedBox(
                   height: 13,
                 ),
-                Container(
-                  padding: EdgeInsets.only(left: 10, top: 10),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            "Enero de 2007",
-                            style: TextStyle(
-                                color: utils.primaryColor,
-                                fontSize: 16,
-                                letterSpacing: .3),
-                          ),
-                          Text(
-                            utils.currencyFormat.format(26500),
-                            style: TextStyle(
-                                color: utils.primaryColor,
-                                fontSize: 16,
-                                letterSpacing: .3),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Divider(
-                        height: 4,
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 10, top: 10),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            "Enero de 2007",
-                            style: TextStyle(
-                                color: utils.primaryColor,
-                                fontSize: 16,
-                                letterSpacing: .3),
-                          ),
-                          Text(
-                            utils.currencyFormat.format(26500),
-                            style: TextStyle(
-                                color: utils.primaryColor,
-                                fontSize: 16,
-                                letterSpacing: .3),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Divider(
-                        height: 4,
-                      )
-                    ],
-                  ),
-                ),
-                Divider(
-                  height: 40,
-                  thickness: 2,
-                ),
-                Text(
-                  "Costo Fijo",
-                  style: TextStyle(
-                      color: utils.primaryColor,
-                      fontSize: 14,
-                      letterSpacing: .3),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                Text(
-                  utils.currencyFormat.format(26500),
-                  style: TextStyle(
-                      color: utils.primaryColor,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: .3),
-                ),
+                Column(
+                    children: consultores
+                        .elementAt(index)
+                        .monthlyReports
+                        .map((monthlyReport) => MonthlyRow(
+                              monthlyReport: monthlyReport,
+                              rowType: RowType.netEarning,
+                            ))
+                        .toList()),
                 Divider(
                   height: 40,
                   thickness: 2,
@@ -209,7 +134,8 @@ class _ReportPageState extends State<ReportPage> {
                   height: 12,
                 ),
                 Text(
-                  utils.currencyFormat.format(26500),
+                  utils.currencyFormat
+                      .format(getTotalCommission(consultores.elementAt(index))),
                   style: TextStyle(
                       color: utils.primaryColor,
                       fontSize: 20,
@@ -219,70 +145,15 @@ class _ReportPageState extends State<ReportPage> {
                 SizedBox(
                   height: 13,
                 ),
-                Container(
-                  padding: EdgeInsets.only(left: 10, top: 10),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            "Enero de 2007",
-                            style: TextStyle(
-                                color: utils.primaryColor,
-                                fontSize: 16,
-                                letterSpacing: .3),
-                          ),
-                          Text(
-                            utils.currencyFormat.format(26500),
-                            style: TextStyle(
-                                color: utils.primaryColor,
-                                fontSize: 16,
-                                letterSpacing: .3),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Divider(
-                        height: 4,
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 10, top: 10),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            "Enero de 2007",
-                            style: TextStyle(
-                                color: utils.primaryColor,
-                                fontSize: 16,
-                                letterSpacing: .3),
-                          ),
-                          Text(
-                            utils.currencyFormat.format(26500),
-                            style: TextStyle(
-                                color: utils.primaryColor,
-                                fontSize: 16,
-                                letterSpacing: .3),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Divider(
-                        height: 4,
-                      )
-                    ],
-                  ),
-                ),
+                Column(
+                    children: consultores
+                        .elementAt(index)
+                        .monthlyReports
+                        .map((monthlyReport) => MonthlyRow(
+                              monthlyReport: monthlyReport,
+                              rowType: RowType.commission,
+                            ))
+                        .toList()),
                 Divider(
                   height: 40,
                   thickness: 2,
@@ -298,7 +169,8 @@ class _ReportPageState extends State<ReportPage> {
                   height: 12,
                 ),
                 Text(
-                  utils.currencyFormat.format(26500),
+                  utils.currencyFormat
+                      .format(getTotalProfit(consultores.elementAt(index))),
                   style: TextStyle(
                       color: utils.primaryColor,
                       fontSize: 20,
@@ -308,69 +180,43 @@ class _ReportPageState extends State<ReportPage> {
                 SizedBox(
                   height: 13,
                 ),
-                Container(
-                  padding: EdgeInsets.only(left: 10, top: 10),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            "Enero de 2007",
-                            style: TextStyle(
-                                color: utils.primaryColor,
-                                fontSize: 16,
-                                letterSpacing: .3),
-                          ),
-                          Text(
-                            utils.currencyFormat.format(26500),
-                            style: TextStyle(
-                                color: utils.primaryColor,
-                                fontSize: 16,
-                                letterSpacing: .3),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Divider(
-                        height: 4,
-                      )
-                    ],
-                  ),
+                Column(
+                    children: consultores
+                        .elementAt(index)
+                        .monthlyReports
+                        .map((monthlyReport) => MonthlyRow(
+                              monthlyReport: monthlyReport,
+                              rowType: RowType.profit,
+                            ))
+                        .toList()),
+                Divider(
+                  height: 40,
+                  thickness: 2,
                 ),
-                Container(
-                  padding: EdgeInsets.only(left: 10, top: 10),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            "Enero de 2007",
-                            style: TextStyle(
-                                color: utils.primaryColor,
-                                fontSize: 16,
-                                letterSpacing: .3),
-                          ),
-                          Text(
-                            utils.currencyFormat.format(26500),
-                            style: TextStyle(
-                                color: utils.primaryColor,
-                                fontSize: 16,
-                                letterSpacing: .3),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Divider(
-                        height: 4,
-                      )
-                    ],
-                  ),
+                Text(
+                  "Costo Fijo",
+                  style: TextStyle(
+                      color: utils.primaryColor,
+                      fontSize: 14,
+                      letterSpacing: .3),
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Text(
+                  utils.currencyFormat.format(consultores
+                      .elementAt(index)
+                      .monthlyReports
+                      .first
+                      .fixedCost),
+                  style: TextStyle(
+                      color: utils.primaryColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: .3),
+                ),
+                SizedBox(
+                  height: 12,
                 ),
               ],
             ),
@@ -394,5 +240,95 @@ class _ReportPageState extends State<ReportPage> {
     for (var c in consultores) {
       c.setMonthlyReports();
     }
+  }
+
+  double getTotalNetEarnings(Consultor consultor) {
+    double totalNetEarnings = 0;
+    for (var mr in consultor.monthlyReports) {
+      totalNetEarnings += mr.netEarning;
+    }
+    return totalNetEarnings;
+  }
+
+  double getTotalCommission(Consultor consultor) {
+    double totalCommission = 0;
+    for (var mr in consultor.monthlyReports) {
+      totalCommission += mr.commission;
+    }
+    return totalCommission;
+  }
+
+  double getTotalProfit(Consultor consultor) {
+    double totalProfit = 0;
+    for (var mr in consultor.monthlyReports) {
+      totalProfit += mr.profit;
+    }
+    return totalProfit;
+  }
+}
+
+class MonthlyRow extends StatelessWidget {
+  final MonthlyReport monthlyReport;
+  final RowType rowType;
+
+  MonthlyRow({
+    this.monthlyReport,
+    this.rowType,
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Widget number;
+
+    switch (rowType) {
+      case RowType.netEarning:
+        number = Text(
+          utils.currencyFormat.format(monthlyReport.netEarning),
+          style: TextStyle(
+              color: utils.primaryColor, fontSize: 16, letterSpacing: .3),
+        );
+        break;
+      case RowType.commission:
+        number = Text(
+          utils.currencyFormat.format(monthlyReport.commission),
+          style: TextStyle(
+              color: utils.primaryColor, fontSize: 16, letterSpacing: .3),
+        );
+        break;
+      case RowType.profit:
+        number = Text(
+          utils.currencyFormat.format(monthlyReport.profit),
+          style: TextStyle(
+              color: utils.primaryColor, fontSize: 16, letterSpacing: .3),
+        );
+        break;
+      default:
+    }
+
+    return Container(
+      padding: EdgeInsets.only(left: 10, top: 10),
+      child: Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                monthlyReport.month,
+                style: TextStyle(
+                    color: utils.primaryColor, fontSize: 16, letterSpacing: .3),
+              ),
+              number
+            ],
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Divider(
+            height: 4,
+          )
+        ],
+      ),
+    );
   }
 }

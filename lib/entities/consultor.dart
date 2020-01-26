@@ -46,6 +46,7 @@ class Consultor {
   var borderColor = Colors.white;
   List<Report> reports = new List();
   List<MonthlyReport> monthlyReports = new List();
+  bool isReportsAssigned = false;
 
   Consultor({
     this.coUsuario,
@@ -84,12 +85,15 @@ class Consultor {
   });
 
   setMonthlyReports() {
-    double netEarning = 0;
-    double fixedCost = 0;
-    double commission = 0;
+    if (!isReportsAssigned) {
+      double netEarning = 0;
+      double fixedCost = 0;
+      double commission = 0;
 
-    for (int i = 1; i <= 12; i++) {
-      setMonthlyReport(i, netEarning, fixedCost, commission);
+      for (int i = 1; i <= 12; i++) {
+        setMonthlyReport(i, netEarning, fixedCost, commission);
+      }
+      isReportsAssigned = true;
     }
   }
 
