@@ -82,45 +82,20 @@ class _ReportPageState extends State<ReportPage> {
                 SizedBox(
                   height: 6,
                 ),
-                Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.email,
-                      color: utils.secondaryColor,
-                      size: 20,
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                        utils.dateFormat.format(
-                            consultores.elementAt(index).dtAdmissaoEmpresa),
-                        style: TextStyle(
-                            color: utils.primaryColor,
-                            fontSize: 13,
-                            letterSpacing: .3)),
-                  ],
-                ),
+                Text("Ganancias Netas",
+                    style: TextStyle(
+                        color: utils.primaryColor,
+                        fontSize: 14,
+                        letterSpacing: .3)),
                 SizedBox(
-                  height: 6,
+                  height: 12,
                 ),
-                Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.date_range,
-                      color: utils.secondaryColor,
-                      size: 20,
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text("Fecha de admisión: ",
-                        style: TextStyle(
-                            color: utils.primaryColor,
-                            fontSize: 13,
-                            letterSpacing: .3)),
-                  ],
-                ),
+                Text("26.500,00",
+                    style: TextStyle(
+                        color: utils.primaryColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: .3)),
               ],
             ),
           ),
