@@ -58,172 +58,190 @@ class _ReportPageState extends State<ReportPage> {
 
   Widget buildList(
       BuildContext context, int index, Set<Consultor> consultores) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-      ),
-      width: double.infinity,
-      margin: EdgeInsets.only(bottom: 10),
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Center(
-                    child: Text(
-                      consultores.elementAt(index).noUsuario,
-                      style: TextStyle(
-                          color: utils.primaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24),
+    Widget list;
+
+    if (consultores.elementAt(index).monthlyReports.isEmpty) {
+      list = Container(
+        margin: EdgeInsets.all(100),
+        child: Center(
+          child: Text(
+            "No tiene reportes",
+            style: TextStyle(
+                color: utils.primaryColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 24),
+          ),
+        ),
+      );
+    } else {
+      list = Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        width: double.infinity,
+        margin: EdgeInsets.only(bottom: 10),
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Center(
+                      child: Text(
+                        consultores.elementAt(index).noUsuario,
+                        style: TextStyle(
+                            color: utils.primaryColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24),
+                      ),
                     ),
                   ),
-                ),
-                Divider(
-                  height: 40,
-                  thickness: 2,
-                ),
-                Text(
-                  "Ganancias Netas",
-                  style: TextStyle(
-                      color: utils.primaryColor,
-                      fontSize: 14,
-                      letterSpacing: .3),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                Text(
-                  utils.currencyFormat.format(
-                      getTotalNetEarnings(consultores.elementAt(index))),
-                  style: TextStyle(
-                      color: utils.primaryColor,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: .3),
-                ),
-                SizedBox(
-                  height: 13,
-                ),
-                Column(
-                    children: consultores
+                  Divider(
+                    height: 40,
+                    thickness: 2,
+                  ),
+                  Text(
+                    "Ganancias Netas",
+                    style: TextStyle(
+                        color: utils.primaryColor,
+                        fontSize: 14,
+                        letterSpacing: .3),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Text(
+                    utils.currencyFormat.format(
+                        getTotalNetEarnings(consultores.elementAt(index))),
+                    style: TextStyle(
+                        color: utils.primaryColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: .3),
+                  ),
+                  SizedBox(
+                    height: 13,
+                  ),
+                  Column(
+                      children: consultores
+                          .elementAt(index)
+                          .monthlyReports
+                          .map((monthlyReport) => MonthlyRow(
+                                monthlyReport: monthlyReport,
+                                rowType: RowType.netEarning,
+                              ))
+                          .toList()),
+                  Divider(
+                    height: 40,
+                    thickness: 2,
+                  ),
+                  Text(
+                    "Comisión",
+                    style: TextStyle(
+                        color: utils.primaryColor,
+                        fontSize: 14,
+                        letterSpacing: .3),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Text(
+                    utils.currencyFormat.format(
+                        getTotalCommission(consultores.elementAt(index))),
+                    style: TextStyle(
+                        color: utils.primaryColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: .3),
+                  ),
+                  SizedBox(
+                    height: 13,
+                  ),
+                  Column(
+                      children: consultores
+                          .elementAt(index)
+                          .monthlyReports
+                          .map((monthlyReport) => MonthlyRow(
+                                monthlyReport: monthlyReport,
+                                rowType: RowType.commission,
+                              ))
+                          .toList()),
+                  Divider(
+                    height: 40,
+                    thickness: 2,
+                  ),
+                  Text(
+                    "Ganancia",
+                    style: TextStyle(
+                        color: utils.primaryColor,
+                        fontSize: 14,
+                        letterSpacing: .3),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Text(
+                    utils.currencyFormat
+                        .format(getTotalProfit(consultores.elementAt(index))),
+                    style: TextStyle(
+                        color: utils.primaryColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: .3),
+                  ),
+                  SizedBox(
+                    height: 13,
+                  ),
+                  Column(
+                      children: consultores
+                          .elementAt(index)
+                          .monthlyReports
+                          .map((monthlyReport) => MonthlyRow(
+                                monthlyReport: monthlyReport,
+                                rowType: RowType.profit,
+                              ))
+                          .toList()),
+                  Divider(
+                    height: 40,
+                    thickness: 2,
+                  ),
+                  Text(
+                    "Costo Fijo",
+                    style: TextStyle(
+                        color: utils.primaryColor,
+                        fontSize: 14,
+                        letterSpacing: .3),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Text(
+                    utils.currencyFormat.format(consultores
                         .elementAt(index)
                         .monthlyReports
-                        .map((monthlyReport) => MonthlyRow(
-                              monthlyReport: monthlyReport,
-                              rowType: RowType.netEarning,
-                            ))
-                        .toList()),
-                Divider(
-                  height: 40,
-                  thickness: 2,
-                ),
-                Text(
-                  "Comisión",
-                  style: TextStyle(
-                      color: utils.primaryColor,
-                      fontSize: 14,
-                      letterSpacing: .3),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                Text(
-                  utils.currencyFormat
-                      .format(getTotalCommission(consultores.elementAt(index))),
-                  style: TextStyle(
-                      color: utils.primaryColor,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: .3),
-                ),
-                SizedBox(
-                  height: 13,
-                ),
-                Column(
-                    children: consultores
-                        .elementAt(index)
-                        .monthlyReports
-                        .map((monthlyReport) => MonthlyRow(
-                              monthlyReport: monthlyReport,
-                              rowType: RowType.commission,
-                            ))
-                        .toList()),
-                Divider(
-                  height: 40,
-                  thickness: 2,
-                ),
-                Text(
-                  "Ganancia",
-                  style: TextStyle(
-                      color: utils.primaryColor,
-                      fontSize: 14,
-                      letterSpacing: .3),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                Text(
-                  utils.currencyFormat
-                      .format(getTotalProfit(consultores.elementAt(index))),
-                  style: TextStyle(
-                      color: utils.primaryColor,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: .3),
-                ),
-                SizedBox(
-                  height: 13,
-                ),
-                Column(
-                    children: consultores
-                        .elementAt(index)
-                        .monthlyReports
-                        .map((monthlyReport) => MonthlyRow(
-                              monthlyReport: monthlyReport,
-                              rowType: RowType.profit,
-                            ))
-                        .toList()),
-                Divider(
-                  height: 40,
-                  thickness: 2,
-                ),
-                Text(
-                  "Costo Fijo",
-                  style: TextStyle(
-                      color: utils.primaryColor,
-                      fontSize: 14,
-                      letterSpacing: .3),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                Text(
-                  utils.currencyFormat.format(consultores
-                      .elementAt(index)
-                      .monthlyReports
-                      .first
-                      .fixedCost),
-                  style: TextStyle(
-                      color: utils.primaryColor,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: .3),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-              ],
+                        .first
+                        .fixedCost),
+                    style: TextStyle(
+                        color: utils.primaryColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: .3),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    }
+    return list;
   }
 
   getConsultorReports(List<Report> reports, Set<Consultor> consultores) {
