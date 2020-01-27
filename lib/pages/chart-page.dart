@@ -37,33 +37,10 @@ class _ChartPageState extends State<ChartPage> {
             if (snapshot.hasData) {
               getConsultorReports(snapshot.data, widget.consultores);
               setMonthyReportsConsultorsChecked(widget.consultores);
-              setOrdinalConsultores(widget.consultores);
-              List<charts.Series<SerieConsultor, String>> chartData =
+              setSerieChart(widget.consultores);
+              List<charts.Series<SerieChart, String>> chartData =
                   createChartData(widget.consultores);
-              return Column(
-                children: <Widget>[
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8, right: 8),
-                      child: charts.BarChart(
-                        chartData,
-                        animate: false,
-                        barGroupingType: charts.BarGroupingType.grouped,
-                        behaviors: [
-                          new charts.SeriesLegend(
-                              position: charts.BehaviorPosition.bottom,
-                              horizontalFirst: false)
-                        ],
-                        customSeriesRenderers: [
-                          new charts.LineRendererConfig(
-                              // ID used to link series to this renderer.
-                              customRendererId: 'customLine')
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              );
+              return buildView(chartData, widget.consultores);
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             }
@@ -75,25 +52,85 @@ class _ChartPageState extends State<ChartPage> {
     );
   }
 
-  setOrdinalConsultores(Set<Consultor> consultores) {
+  Widget buildView(List<charts.Series<SerieChart, String>> chartData,
+      Set<Consultor> consultores) {
+    if (consultores.first.monthlyReports.isEmpty && consultores.length == 1) {
+      return Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        width: double.infinity,
+        margin: EdgeInsets.only(bottom: 10),
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Center(
+                child: Text(
+                  consultores.first.noUsuario,
+                  style: TextStyle(
+                      color: utils.primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24),
+                ),
+              ),
+            ),
+            Divider(
+              height: 40,
+              thickness: 2,
+            ),
+            Center(
+              child: Text(
+                "No tiene reportes",
+                style: TextStyle(color: utils.primaryColor, fontSize: 20),
+              ),
+            ),
+            SizedBox(
+              height: 12,
+            ),
+          ],
+        ),
+      );
+    }
+    return Padding(
+      padding: const EdgeInsets.only(left: 8, right: 8),
+      child: charts.BarChart(
+        chartData,
+        animate: true,
+        barGroupingType: charts.BarGroupingType.grouped,
+        behaviors: [
+          new charts.SeriesLegend(
+              position: charts.BehaviorPosition.bottom, horizontalFirst: false)
+        ],
+        customSeriesRenderers: [
+          new charts.LineRendererConfig(
+              // ID used to link series to this renderer.
+              customRendererId: 'customLine')
+        ],
+      ),
+    );
+  }
+
+  setSerieChart(Set<Consultor> consultores) {
     for (var c in consultores) {
       for (var mr in c.monthlyReports) {
-        c.serieConsultores.add(new SerieConsultor(c.noUsuario, mr.netEarning,
+        c.serieChart.add(new SerieChart(c.noUsuario, mr.netEarning,
             mr.month.split(" ")[0].substring(0, 3)));
       }
     }
   }
 
-  List<charts.Series<SerieConsultor, String>> createChartData(
+  List<charts.Series<SerieChart, String>> createChartData(
       Set<Consultor> consultores) {
-    List<charts.Series<SerieConsultor, String>> chartData = new List();
+    List<charts.Series<SerieChart, String>> chartData = new List();
     for (var c in consultores) {
       chartData.add(
-        new charts.Series<SerieConsultor, String>(
+        new charts.Series<SerieChart, String>(
           id: c.noUsuario,
-          domainFn: (SerieConsultor consultor, _) => consultor.month,
-          measureFn: (SerieConsultor consultor, _) => consultor.netEarning,
-          data: c.serieConsultores,
+          domainFn: (SerieChart consultor, _) => consultor.month,
+          measureFn: (SerieChart consultor, _) => consultor.netEarning,
+          data: c.serieChart,
         ),
       );
     }
@@ -117,7 +154,7 @@ class _ChartPageState extends State<ChartPage> {
     }
   }
 
-  charts.Series<SerieConsultor, String> getFixedCostAvgSerie(
+  charts.Series<SerieChart, String> getFixedCostAvgSerie(
       Set<Consultor> consultores) {
     double fixedCost = 0;
 
@@ -129,16 +166,16 @@ class _ChartPageState extends State<ChartPage> {
 
     fixedCost = fixedCost / consultores.length;
 
-    List<SerieConsultor> series = new List();
+    List<SerieChart> series = new List();
 
-    series.add(new SerieConsultor("avg", fixedCost, "Ene"));
-    series.add(new SerieConsultor("avg", fixedCost, "Dec"));
+    series.add(new SerieChart("avg", fixedCost, "Ene"));
+    series.add(new SerieChart("avg", fixedCost, "Dec"));
 
-    charts.Series<SerieConsultor, String> serie =
-        new charts.Series<SerieConsultor, String>(
+    charts.Series<SerieChart, String> serie =
+        new charts.Series<SerieChart, String>(
       id: "Costo Fijo Promedio",
-      domainFn: (SerieConsultor consultor, _) => consultor.month,
-      measureFn: (SerieConsultor consultor, _) => consultor.netEarning,
+      domainFn: (SerieChart consultor, _) => consultor.month,
+      measureFn: (SerieChart consultor, _) => consultor.netEarning,
       data: series,
       colorFn: (_, __) => charts.MaterialPalette.black,
     )..setAttribute(charts.rendererIdKey, 'customLine');
@@ -146,10 +183,10 @@ class _ChartPageState extends State<ChartPage> {
   }
 }
 
-class SerieConsultor {
+class SerieChart {
   String noUsuario;
   double netEarning;
   String month;
 
-  SerieConsultor(this.noUsuario, this.netEarning, this.month);
+  SerieChart(this.noUsuario, this.netEarning, this.month);
 }
