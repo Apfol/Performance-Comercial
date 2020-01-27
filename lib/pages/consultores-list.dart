@@ -6,6 +6,7 @@ import 'package:comercial_performance/requests/requests.dart';
 import 'package:comercial_performance/utils/utils.dart' as utils;
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ConsultoresList extends StatefulWidget {
   ConsultoresList({Key key}) : super(key: key);
@@ -63,7 +64,7 @@ class _ConsultoresListState extends State<ConsultoresList> {
                               consultores: consultoresChecked,
                             )))),
             SpeedDialChild(
-              child: Icon(Icons.show_chart),
+              child: Icon(FontAwesomeIcons.solidChartBar),
               label: 'Gráfico',
               labelStyle: TextStyle(fontSize: 18.0),
               onTap: () => Navigator.push(
@@ -87,16 +88,14 @@ class _ConsultoresListState extends State<ConsultoresList> {
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Stack(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(top: 145),
-                height: MediaQuery.of(context).size.height,
-                width: double.infinity,
+      body: Stack(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(top: 145),
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Center(
                 child: FutureBuilder(
                   future: consultores,
                   builder: (context, snapshot) {
@@ -116,61 +115,60 @@ class _ConsultoresListState extends State<ConsultoresList> {
                   },
                 ),
               ),
-              Container(
-                height: 140,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    color: utils.primaryColor,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30))),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Center(
-                    child: Text(
-                      "Consultores",
-                      style: TextStyle(color: Colors.white, fontSize: 24),
+            ),
+          ),
+          Container(
+            height: 140,
+            width: double.infinity,
+            decoration: BoxDecoration(
+                color: utils.primaryColor,
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30))),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Center(
+                child: Text(
+                  "Consultores",
+                  style: TextStyle(color: Colors.white, fontSize: 24),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 110,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Material(
+                    elevation: 5.0,
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    child: TextField(
+                      // controller: TextEditingController(text: locations[0]),
+                      cursorColor: Theme.of(context).primaryColor,
+                      style: dropdownMenuItem,
+                      decoration: InputDecoration(
+                          hintText: "Buscar consultor",
+                          hintStyle:
+                              TextStyle(color: Colors.black38, fontSize: 16),
+                          prefixIcon: Material(
+                            elevation: 0.0,
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            child: Icon(Icons.search),
+                          ),
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 13)),
                     ),
                   ),
                 ),
-              ),
-              Container(
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 110,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Material(
-                        elevation: 5.0,
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        child: TextField(
-                          // controller: TextEditingController(text: locations[0]),
-                          cursorColor: Theme.of(context).primaryColor,
-                          style: dropdownMenuItem,
-                          decoration: InputDecoration(
-                              hintText: "Buscar consultor",
-                              hintStyle: TextStyle(
-                                  color: Colors.black38, fontSize: 16),
-                              prefixIcon: Material(
-                                elevation: 0.0,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30)),
-                                child: Icon(Icons.search),
-                              ),
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 25, vertical: 13)),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

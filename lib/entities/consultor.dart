@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:comercial_performance/entities/monthly-report.dart';
 import 'package:comercial_performance/entities/report.dart';
+import 'package:comercial_performance/pages/chart-page.dart';
 import 'package:flutter/material.dart';
 
 Consultor consultorFromJson(String str) => Consultor.fromJson(json.decode(str));
@@ -47,6 +48,8 @@ class Consultor {
   List<Report> reports = new List();
   List<MonthlyReport> monthlyReports = new List();
   bool isReportsAssigned = false;
+  List<SerieConsultor> serieConsultores = new List();
+  bool isSerieSet = false;
 
   Consultor({
     this.coUsuario,

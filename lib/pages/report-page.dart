@@ -1,10 +1,9 @@
 import 'package:comercial_performance/entities/consultor.dart';
-import 'package:comercial_performance/entities/fixed-cost.dart';
-import 'package:comercial_performance/entities/monthly-report.dart';
 import 'package:comercial_performance/entities/report.dart';
 import 'package:comercial_performance/requests/requests.dart';
 import 'package:comercial_performance/utils/rowType.dart';
 import 'package:comercial_performance/utils/utils.dart' as utils;
+import 'package:comercial_performance/widgets/MonthlyRow.dart';
 import 'package:flutter/material.dart';
 
 class ReportPage extends StatefulWidget {
@@ -17,7 +16,6 @@ class ReportPage extends StatefulWidget {
 
 class _ReportPageState extends State<ReportPage> {
   Future<List<Report>> reports;
-  Future<List<FixedCost>> fixedCost;
 
   @override
   void initState() {
@@ -62,15 +60,40 @@ class _ReportPageState extends State<ReportPage> {
 
     if (consultores.elementAt(index).monthlyReports.isEmpty) {
       list = Container(
-        margin: EdgeInsets.all(100),
-        child: Center(
-          child: Text(
-            "No tiene reportes",
-            style: TextStyle(
-                color: utils.primaryColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 24),
-          ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        width: double.infinity,
+        margin: EdgeInsets.only(bottom: 10),
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Center(
+                child: Text(
+                  consultores.elementAt(index).noUsuario,
+                  style: TextStyle(
+                      color: utils.primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24),
+                ),
+              ),
+            ),
+            Divider(
+              height: 40,
+              thickness: 2,
+            ),
+            Center(
+              child: Text(
+                "No tiene reportes",
+                style: TextStyle(color: utils.primaryColor, fontSize: 20),
+              ),
+            ),
+            SizedBox(
+              height: 12,
+            ),
+          ],
         ),
       );
     } else {
@@ -282,71 +305,5 @@ class _ReportPageState extends State<ReportPage> {
       totalProfit += mr.profit;
     }
     return totalProfit;
-  }
-}
-
-class MonthlyRow extends StatelessWidget {
-  final MonthlyReport monthlyReport;
-  final RowType rowType;
-
-  MonthlyRow({
-    this.monthlyReport,
-    this.rowType,
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    Widget number;
-
-    switch (rowType) {
-      case RowType.netEarning:
-        number = Text(
-          utils.currencyFormat.format(monthlyReport.netEarning),
-          style: TextStyle(
-              color: utils.primaryColor, fontSize: 16, letterSpacing: .3),
-        );
-        break;
-      case RowType.commission:
-        number = Text(
-          utils.currencyFormat.format(monthlyReport.commission),
-          style: TextStyle(
-              color: utils.primaryColor, fontSize: 16, letterSpacing: .3),
-        );
-        break;
-      case RowType.profit:
-        number = Text(
-          utils.currencyFormat.format(monthlyReport.profit),
-          style: TextStyle(
-              color: utils.primaryColor, fontSize: 16, letterSpacing: .3),
-        );
-        break;
-      default:
-    }
-
-    return Container(
-      padding: EdgeInsets.only(left: 10, top: 10),
-      child: Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                monthlyReport.month,
-                style: TextStyle(
-                    color: utils.primaryColor, fontSize: 16, letterSpacing: .3),
-              ),
-              number
-            ],
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Divider(
-            height: 4,
-          )
-        ],
-      ),
-    );
   }
 }
