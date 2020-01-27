@@ -89,20 +89,42 @@ class _PieChartPageState extends State<PieChartPage> {
         ),
       );
     }
-    return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16),
-      child: new charts.PieChart(
-        createChartData(widget.consultores),
-        animate: true,
-        behaviors: [
-          new charts.DatumLegend(
-              horizontalFirst: false, position: charts.BehaviorPosition.bottom)
-        ],
-        defaultRenderer: new charts.ArcRendererConfig(
-          arcWidth: 100,
-          arcRendererDecorators: [new charts.ArcLabelDecorator()],
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Center(
+              child: Text(
+                "Ganancias Netas",
+                style: TextStyle(
+                    color: utils.primaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+              ),
+            ),
+          ),
         ),
-      ),
+        Expanded(
+          flex: 9,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16),
+            child: new charts.PieChart(
+              createChartData(widget.consultores),
+              animate: true,
+              behaviors: [
+                new charts.DatumLegend(
+                    horizontalFirst: false,
+                    position: charts.BehaviorPosition.bottom)
+              ],
+              defaultRenderer: new charts.ArcRendererConfig(
+                arcWidth: 100,
+                arcRendererDecorators: [new charts.ArcLabelDecorator()],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 

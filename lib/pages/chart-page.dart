@@ -93,22 +93,44 @@ class _ChartPageState extends State<ChartPage> {
         ),
       );
     }
-    return Padding(
-      padding: const EdgeInsets.only(left: 8, right: 8),
-      child: charts.BarChart(
-        chartData,
-        animate: true,
-        barGroupingType: charts.BarGroupingType.grouped,
-        behaviors: [
-          new charts.SeriesLegend(
-              position: charts.BehaviorPosition.bottom, horizontalFirst: false)
-        ],
-        customSeriesRenderers: [
-          new charts.LineRendererConfig(
-              // ID used to link series to this renderer.
-              customRendererId: 'customLine')
-        ],
-      ),
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Center(
+              child: Text(
+                "Gráfico de desempeño",
+                style: TextStyle(
+                    color: utils.primaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 9,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8),
+            child: charts.BarChart(
+              chartData,
+              animate: true,
+              barGroupingType: charts.BarGroupingType.grouped,
+              behaviors: [
+                new charts.SeriesLegend(
+                    position: charts.BehaviorPosition.bottom,
+                    horizontalFirst: false)
+              ],
+              customSeriesRenderers: [
+                new charts.LineRendererConfig(
+                    // ID used to link series to this renderer.
+                    customRendererId: 'customLine')
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
